@@ -1,18 +1,37 @@
 import * as React from "react";
 
 class App extends React.Component {
-  componentDidMount() {
-    fetch("https://swapi.co/api/planets/1/")
-      .then(data => data.json())
-      .then(result => console.log(result));
-  }
-  onClick = () => {
-    console.log("click");
+  state = {
+    planets: []
   };
+
+  componentDidMount() {
+    fetch("https://swapi.co/api/planets/")
+      .then(data => data.json())
+      .then(result =>
+        this.setState({
+          planets: result.results
+        })
+      );
+  }
+
+  onClickPlanet = planet => {
+    const films = Promise.all(
+      planet.films.map(film => fetch(film).then(data => data.json()))
+    ).then(result => console.log(result));
+  };
+
   render() {
+    const { planets } = this.state;
     return (
       <div className="gerrit">
-        <button onClick={this.onClick}>Click</button>
+        {planets ? (
+          <ul>
+            {planets.map(planet => (
+              <li onClick={() => this.onClickPlanet(planet)}>{planet.name}</li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     );
   }
