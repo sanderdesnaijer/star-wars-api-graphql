@@ -11,23 +11,30 @@ const schema = buildSchema(`
   type Query {
     
     planet(id: Int!): Planet
-    planets: [Planet]
+    planets: Planets
 
     person(id: Int!) : People
-    persons: [People]
+    persons: Persons
 
     film(id: Int!): Film
-    films: [Film]
+    films: Films
 
     starship(id: Int!): Starship
-    starships: [Starship] 
+    starships: Starships
 
     vehicle(id: Int!): Vehicle
-    vehicles: [Vehicle]
+    vehicles: Vehicles
 
     specie(id: Int!): Specie
-    species: [Specie]
+    species: Species
   }
+
+  type Pagination {
+    count: Int,
+    next: String,
+    previous: String,
+  }
+
   type Course {
     id: Int
     title: String
@@ -52,6 +59,11 @@ const schema = buildSchema(`
     films: [String]
   }
 
+  type Planets {
+    edges: [Planet]
+    pagination: Pagination
+  }
+
   type People {
     birth_year: String
     eye_color: String    
@@ -71,6 +83,11 @@ const schema = buildSchema(`
     films: [String]
   }
 
+  type Persons {
+    edges: [People]
+    pagination: Pagination
+  }
+
   type Film {    
     created: String
     director: String
@@ -86,6 +103,11 @@ const schema = buildSchema(`
     species: [String]
     starships: [String]
     vehicles: [String]
+  }
+
+  type Films {
+    edges: [Film]
+    pagination: Pagination
   }
 
   type Starship {
@@ -109,6 +131,11 @@ const schema = buildSchema(`
     pilots: [String]
   }
 
+  type Starships {
+    edges: [Starship]
+    pagination: Pagination
+  }
+
   type Vehicle {
     cargo_capacity: String
     consumables: String
@@ -128,6 +155,11 @@ const schema = buildSchema(`
     films: [String]
   }
 
+  type Vehicles {
+    edges: [Vehicle]
+    pagination: Pagination
+  }
+
   type Specie {
     average_height: String
     average_lifespan: String
@@ -145,120 +177,64 @@ const schema = buildSchema(`
     people: [String]
     films: [String]
   }
+
+  type Species {
+    edges: [Specie]
+    pagination: Pagination
+  }
+
 `);
 
+// helpers
 const fetchData = url => {
   return fetch(url).then(res => res.json());
 };
 
+const responseWithPagination = data => {
+  const { count, next, previous, results } = data;
+  return Object.assign(
+    {},
+    {
+      pagination: {
+        count,
+        next,
+        previous
+      },
+      edges: results
+    }
+  );
+};
+
+// requests: Planets
 const getPlanet = args => fetchData(`https://swapi.co/api/planets/${args.id}`);
+const getPlanets = () =>
+  fetchData("https://swapi.co/api/planets/").then(responseWithPagination);
 
-// const getPlanets = args => {
-//   return fetch("https://swapi.co/api/planets/")
-//     .then(res => res.json())
-//     .then(data => {
-//       console.log(data);
-//       return data.results;
-//     });
-// };
+// requests: Person
+const getPerson = args => fetch(`https://swapi.co/api/people/${args.id}`);
+const getPersons = () =>
+  fetchData("https://swapi.co/api/people/").then(responseWithPagination);
 
-const getPlanets = args => {
-  return fetchData("https://swapi.co/api/planets/").then(data => {
-    const { count, next, previous, results } = data;
-    const pagination = {
-      count,
-      next,
-      previous
-    };
+// requests: Films
+const getFilm = args => fetchData(`https://swapi.co/api/films/${args.id}`);
+const getFilms = () =>
+  fetchData("https://swapi.co/api/films/").then(responseWithPagination);
 
-    return results;
-  });
-};
+// requests Starships
+const getStarship = args =>
+  fetchData(`https://swapi.co/api/starships/${args.id}`);
+const getStarships = () =>
+  fetchData("https://swapi.co/api/starships/").then(responseWithPagination);
 
-const getPerson = args => {
-  return fetch(`https://swapi.co/api/people/${args.id}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data;
-    });
-};
-const getPersons = args => {
-  return fetch("https://swapi.co/api/people/")
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data.results;
-    });
-};
+// request vehicles
+const getVehicle = args => fetchData(`https://swapi.co/api/vehicle/${args.id}`);
+const getVehicles = () =>
+  fetchData("https://swapi.co/api/vehicle/").then(responseWithPagination);
 
-const getFilm = args => {
-  return fetch(`https://swapi.co/api/films/${args.id}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data;
-    });
-};
-const getFilms = args => {
-  return fetch("https://swapi.co/api/films/")
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data.results;
-    });
-};
-
-const getStarship = args => {
-  return fetch(`https://swapi.co/api/starships/${args.id}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data;
-    });
-};
-const getStarships = args => {
-  return fetch("https://swapi.co/api/starships/")
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data.results;
-    });
-};
-
-const getVehicle = args => {
-  return fetch(`https://swapi.co/api/vehicles/${args.id}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data;
-    });
-};
-const getVehicles = args => {
-  return fetch("https://swapi.co/api/vehicles/")
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data.results;
-    });
-};
-
-const getSpecy = args => {
-  return fetch(`https://swapi.co/api/species/${args.id}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data;
-    });
-};
-const getSpecies = args => {
-  return fetch("https://swapi.co/api/species/")
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data.results;
-    });
-};
+// request vehicles
+const getSpecy = args => fetchData(`https://swapi.co/api/species/${args.id}`);
+const getSpecies = () =>
+  fetchData("https://swapi.co/api/species/").then(responseWithPagination);
 
 // Root resolver
 const root = {

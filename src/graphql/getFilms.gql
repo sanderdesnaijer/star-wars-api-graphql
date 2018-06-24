@@ -1,0 +1,20 @@
+query getFilms {
+  films {
+    edges {
+      director      
+      opening_crawl
+      title
+      url
+      release_date
+      planets
+      species
+      starships
+      vehicles
+    }
+    pagination {
+      count
+      next
+      previous
+    }
+  }
+}

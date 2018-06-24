@@ -1,57 +1,27 @@
 import * as React from "react";
 import ApolloClient, { gql } from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+require("../styles/main.scss");
+
+import Main from "./Main";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql"
 });
 
-client
-  .query({
-    query: gql`
-      query getSpecies {
-        species {
-          name
-          average_height
-          classification
-        }
-      }
-    `
-  })
-  .then(res => console.log(res));
+// client
+//   .query({
+//     query: gql(getFilmsGql)
+//   })
+//   .then(res => console.log(res.data.films.edges));
 
 class App extends React.Component {
-  state = {
-    planets: []
-  };
-
-  componentDidMount() {
-    fetch("https://swapi.co/api/planets/")
-      .then(data => data.json())
-      .then(result =>
-        this.setState({
-          planets: result.results
-        })
-      );
-  }
-
-  onClickPlanet = planet => {
-    const films = Promise.all(
-      planet.films.map(film => fetch(film).then(data => data.json()))
-    ).then(result => console.log(result));
-  };
-
+  componentDidMount() {}
   render() {
-    const { planets } = this.state;
     return (
-      <div className="gerrit">
-        {planets ? (
-          <ul>
-            {planets.map(planet => (
-              <li onClick={() => this.onClickPlanet(planet)}>{planet.name}</li>
-            ))}
-          </ul>
-        ) : null}
-      </div>
+      <ApolloProvider client={client}>
+        <Main />
+      </ApolloProvider>
     );
   }
 }
