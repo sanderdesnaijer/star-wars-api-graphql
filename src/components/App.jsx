@@ -9,14 +9,7 @@ const client = new ApolloClient({
   uri: "http://localhost:4000/graphql"
 });
 
-// client
-//   .query({
-//     query: gql(getFilmsGql)
-//   })
-//   .then(res => console.log(res.data.films.edges));
-
 class App extends React.Component {
-  componentDidMount() {}
   render() {
     return (
       <ApolloProvider client={client}>
