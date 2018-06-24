@@ -1,0 +1,28 @@
+query getStarships {
+  starships {
+    edges {
+      cargo_capacity
+      consumables
+      cost_in_credits
+      created
+      crew
+      edited
+      hyperdrive_rating
+      length
+      manufacturer
+      max_atmosphering_speed
+      model
+      name
+      passengers
+      starship_class
+      url
+      films
+      pilots
+    }
+    pagination {
+      count
+      next
+      previous
+    }
+  }
+}

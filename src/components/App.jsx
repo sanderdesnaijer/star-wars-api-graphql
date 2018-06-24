@@ -1,6 +1,7 @@
 import * as React from "react";
 import ApolloClient, { gql } from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
+import { HashRouter as Router } from "react-router-dom";
 require("../styles/main.scss");
 
 import Main from "./Main";
@@ -12,9 +13,11 @@ const client = new ApolloClient({
 class App extends React.Component {
   render() {
     return (
-      <ApolloProvider client={client}>
-        <Main />
-      </ApolloProvider>
+      <Router>
+        <ApolloProvider client={client}>
+          <Main />
+        </ApolloProvider>
+      </Router>
     );
   }
 }

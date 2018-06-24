@@ -1,3 +1,42 @@
-body {
-  background: url('../assets/images/death-star.png') ;
+html, body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  display: block;
 }
+
+body {
+  background-image: url('../assets/images/death-star.jpg') ;    
+  background-size: cover;
+  font-family: 'Encode Sans Condensed', sans-serif;
+  color: #fff;
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom:0;
+    right:0;
+    top: 0;
+    background: rgba(0,0,0,0.6) 
+  }
+}
+
+#app {
+  display: flex;
+  height: 100%;
+  overflow: hidden;  
+  z-index: 1;
+  position: relative;
+}
+
+.main {
+  display: flex;
+  background-image: url('../assets/images/death-star.jpg') ;    
+  background-size: cover;
+  margin: 8%;
+  padding: 4%;
+  width:100%;
+  box-shadow:0px 0px 20px rgba(0, 0, 0, 0.6);
+}
+
