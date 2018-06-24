@@ -1,6 +1,7 @@
 const express = require("express");
 const express_graphql = require("express-graphql");
 const { buildSchema } = require("graphql");
+const cors = require("cors");
 const fetch = require("node-fetch");
 
 // https://youtu.be/Vs_CBxCfFHk?t=33m24s
@@ -24,8 +25,8 @@ const schema = buildSchema(`
     vehicle(id: Int!): Vehicle
     vehicles: [Vehicle]
 
-    specy(id: Int!): Specy
-    species: [Specy]
+    specie(id: Int!): Specie
+    species: [Specie]
   }
   type Course {
     id: Int
@@ -75,12 +76,12 @@ const schema = buildSchema(`
     director: String
     edited: String
     episode_id: String
-    opening_crawl: String
-    planets: String
+    opening_crawl: String    
     producer: String
     release_date: String
     title: String
     url: String
+    planets: [String]
     characters: [String]
     species: [String]
     starships: [String]
@@ -127,7 +128,7 @@ const schema = buildSchema(`
     films: [String]
   }
 
-  type Specy {
+  type Specie {
     average_height: String
     average_lifespan: String
     classification: String
@@ -146,21 +147,32 @@ const schema = buildSchema(`
   }
 `);
 
-const getPlanet = args => {
-  return fetch(`https://swapi.co/api/planets/${args.id}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data;
-    });
+const fetchData = url => {
+  return fetch(url).then(res => res.json());
 };
+
+const getPlanet = args => fetchData(`https://swapi.co/api/planets/${args.id}`);
+
+// const getPlanets = args => {
+//   return fetch("https://swapi.co/api/planets/")
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log(data);
+//       return data.results;
+//     });
+// };
+
 const getPlanets = args => {
-  return fetch("https://swapi.co/api/planets/")
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      return data.results;
-    });
+  return fetchData("https://swapi.co/api/planets/").then(data => {
+    const { count, next, previous, results } = data;
+    const pagination = {
+      count,
+      next,
+      previous
+    };
+
+    return results;
+  });
 };
 
 const getPerson = args => {
@@ -273,6 +285,7 @@ const root = {
 const app = express();
 app.use(
   "/graphql",
+  cors(),
   express_graphql({
     schema,
     rootValue: root,

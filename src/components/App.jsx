@@ -1,4 +1,23 @@
 import * as React from "react";
+import ApolloClient, { gql } from "apollo-boost";
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/graphql"
+});
+
+client
+  .query({
+    query: gql`
+      query getSpecies {
+        species {
+          name
+          average_height
+          classification
+        }
+      }
+    `
+  })
+  .then(res => console.log(res));
 
 class App extends React.Component {
   state = {
