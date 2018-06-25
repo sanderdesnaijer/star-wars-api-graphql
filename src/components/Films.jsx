@@ -17,11 +17,11 @@ class Films extends Component {
           return data.films.edges.map(
             ({ title, director, url, release_date, planets }) => (
               <div className="film container" key={url}>
-                <div class="col-left">
+                <div className="col-left">
                   <h2>{title}</h2>
                   <span>{`${getYear(release_date)}, ${director}`}</span>
                 </div>
-                <div class="col-right">
+                <div className="col-right">
                   <ul className="planet-list">
                     {planets.map(planet => (
                       <PlanetListItem key={planet} planet={planet} />

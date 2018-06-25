@@ -16,7 +16,7 @@ class Header extends Component {
         <nav className="navigation">
           <ul className="menu">
             {nav.map(nav => (
-              <li class="menu__item">
+              <li key={nav.url} className="menu__item">
                 <NavLink
                   exact={true}
                   className="nav-link"

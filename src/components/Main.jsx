@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Header from "./Header";
 import Films from "./Films";
 import Starships from "./Starships";
+import Planet from "./Planet";
 
 class Main extends Component {
   render() {
@@ -24,7 +25,7 @@ class Main extends Component {
                     <Switch location={location}>
                       <Route exact path="/" component={Films} />
                       <Route exact path="/planets" component={Films} />
-                      <Route exact path="/planets/id" component={Films} />
+                      <Route exact path="/planets/:id" component={Planet} />
                       <Route exact path="/starships" component={Starships} />
                     </Switch>
                   </CSSTransition>
