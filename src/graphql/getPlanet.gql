@@ -1,7 +1,11 @@
-query getPlanetItem($planetId: Int!){
+query getPlanet($planetId: Int!){
   planet(id:$planetId){
     name
     climate
     gravity
+    orbital_period
+    rotation_period
+    surface_water
+    terrain
   }
 }

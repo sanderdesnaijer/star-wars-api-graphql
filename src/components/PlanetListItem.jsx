@@ -3,17 +3,8 @@ import { Query } from "react-apollo";
 import { Link } from "react-router";
 import gql from "graphql-tag";
 import getPlanetItemGql from "../graphql/getPlanetItem.gql";
-
+import PlanetIcon from "./PlanetIcon";
 import { getIdfromUrl } from "../helpers";
-
-const PlanetIcon = ({ name, climate, planetId }) => (
-  <li className="planet-list__item">
-    <a href={`/#/planets/${planetId}`}>
-      <div className={`planet_icon ${climate ? climate : ""}`} />
-      <span>{name ? name : ""}</span>
-    </a>
-  </li>
-);
 
 class PlanetListItem extends Component {
   render() {

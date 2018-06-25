@@ -1,0 +1,10 @@
+query getPlanets {
+  planets {
+    edges {
+      name
+      climate
+      gravity
+      url
+    }
+  }
+}
