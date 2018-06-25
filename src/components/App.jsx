@@ -13,11 +13,11 @@ const client = new ApolloClient({
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
+        <Router>
           <Main />
-        </ApolloProvider>
-      </Router>
+        </Router>
+      </ApolloProvider>
     );
   }
 }

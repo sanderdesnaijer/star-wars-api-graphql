@@ -1,0 +1,62 @@
+.film {
+  padding: 20px 0px;
+
+  h2 {
+    margin-top:0px;
+  }
+}
+
+.planet-list {
+  margin:0px;
+  list-style:none;
+  padding:0px;
+  
+
+  &__item {
+    display: inline-block;
+    margin: 0 15px 15px 0px;
+    text-align: center;
+    font-size: 13px;
+  }
+}
+
+@keyframes planet_fadeIn {
+  0% { transform: scale(.8); opacity: 0; }
+  100%   { transform: scale(1); opacity: 1;   }
+}
+
+.planet_icon {
+  width: 50px;
+  height: 50px;
+  background:rgba(255,255,255,0.1);
+  border-radius: 25px;
+  margin-bottom: 4px;  
+
+  animation: planet_fadeIn 1s ease-out;
+  transition: all 300ms ease-in-out;
+}
+
+.temperate {
+  background-color: rgba(117,113,189,1)
+}
+
+.arid {
+  background-color: purple;
+}
+
+.tropical {
+  background-color:yellow;
+}
+
+.murky {
+  background-color: brown;
+}
+
+.hot {
+  background-color: red;
+}
+
+.humid {
+  background-color: blue;
+}
+

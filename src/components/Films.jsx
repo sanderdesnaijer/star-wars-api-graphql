@@ -2,22 +2,32 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import getFilmsGql from "../graphql/getFilms.gql";
+import Spinner from "./Spinner";
+import PlanetListItem from "./PlanetListItem";
+import { getYear } from "../helpers";
 
 class Films extends Component {
   render() {
-    console.log(this.props);
     return (
       <Query query={gql(getFilmsGql)}>
         {({ loading, error, data }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <Spinner />;
           if (error) return <p>Error :(</p>;
 
           return data.films.edges.map(
-            ({ title, opening_crawl, url, release_date }) => (
-              <div key={url}>
-                <p>{title}</p>
-                <p>{opening_crawl}</p>
-                <p>{release_date}</p>
+            ({ title, director, url, release_date, planets }) => (
+              <div className="film container" key={url}>
+                <div class="col-left">
+                  <h2>{title}</h2>
+                  <span>{`${getYear(release_date)}, ${director}`}</span>
+                </div>
+                <div class="col-right">
+                  <ul className="planet-list">
+                    {planets.map(planet => (
+                      <PlanetListItem key={planet} planet={planet} />
+                    ))}
+                  </ul>
+                </div>
               </div>
             )
           );

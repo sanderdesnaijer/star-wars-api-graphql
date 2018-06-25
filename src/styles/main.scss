@@ -1,3 +1,7 @@
+@import "header";
+@import "elements";
+@import "spinner";
+
 html, body {
   height: 100%;
   margin: 0px;
@@ -31,12 +35,62 @@ body {
 }
 
 .main {
+  position: relative;
   display: flex;
-  background-image: url('../assets/images/death-star.jpg') ;    
-  background-size: cover;
+  flex-direction: column;
   margin: 8%;
   padding: 4%;
   width:100%;
+  background-image: url('../assets/images/death-star.jpg') ;    
+  background-size: cover;  
   box-shadow:0px 0px 20px rgba(0, 0, 0, 0.6);
+
+  &__inner {
+    z-index: 1;
+    position: relative;
+    height: 100%;
+  }
+
+  &:before {
+    content: "";
+    background: rgba(0,0,0,0.6); 
+    position: absolute;
+    margin: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    z-index: 0;
+  }
 }
 
+.content {
+  overflow: auto;
+  position: absolute;
+  bottom: 0;
+  top: 160px;
+}
+
+
+// fading for transtition (currently not working)
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.container {
+  display: flex;
+}
+
+.col-left {
+  width: 30%;
+}
+
+.col-right {
+  width: 70%;
+}
