@@ -26,6 +26,7 @@ class Planets extends Component {
                 <ul className="planet-list planet-list--overview">
                   {data.planets.edges.map(planet => (
                     <PlanetIcon
+                      key={planet.url}
                       planetId={getIdfromUrl(planet.url)}
                       name={planet.name}
                       climate={planet.climate}

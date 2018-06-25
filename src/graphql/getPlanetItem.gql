@@ -1,7 +1,7 @@
+#import "./planetItemFragment.gql"
+
 query getPlanetItem($planetId: Int!){
   planet(id:$planetId){
-    name
-    climate
-    gravity
+    ...PlanetItem
   }
 }

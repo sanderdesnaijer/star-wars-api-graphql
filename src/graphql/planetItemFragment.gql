@@ -1,0 +1,6 @@
+fragment PlanetItem on Planet {
+  name
+  climate
+  gravity
+  url
+}

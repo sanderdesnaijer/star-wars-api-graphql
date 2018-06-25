@@ -1,9 +1,9 @@
+#import "./planetItemFragment.gql"
+
 query getPlanets {
   planets {
     edges {
-      name
-      climate
-      gravity
+      ...PlanetItem
       url
     }
   }
