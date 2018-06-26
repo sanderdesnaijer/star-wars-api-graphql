@@ -4,8 +4,6 @@ const { buildSchema } = require("graphql");
 const cors = require("cors");
 const fetch = require("node-fetch");
 
-// https://youtu.be/Vs_CBxCfFHk?t=33m24s
-
 // GraphQL Schema
 const schema = buildSchema(`
   type Query {
@@ -186,9 +184,10 @@ const schema = buildSchema(`
 `);
 
 // helpers
-const fetchData = url => {
-  return fetch(url).then(res => res.json());
-};
+const fetchData = url => fetch(url).then(res => res.json());
+
+const fetchDataWithPagination = url =>
+  fetchData(url).then(responseWithPagination);
 
 const responseWithPagination = data => {
   const { count, next, previous, results } = data;
@@ -205,56 +204,25 @@ const responseWithPagination = data => {
   );
 };
 
-// requests: Planets
-const getPlanet = args => fetchData(`https://swapi.co/api/planets/${args.id}`);
-const getPlanets = () =>
-  fetchData("https://swapi.co/api/planets/").then(responseWithPagination);
-
-// requests: Person
-const getPerson = args => fetch(`https://swapi.co/api/people/${args.id}`);
-const getPersons = () =>
-  fetchData("https://swapi.co/api/people/").then(responseWithPagination);
-
-// requests: Films
-const getFilm = args => fetchData(`https://swapi.co/api/films/${args.id}`);
-const getFilms = () =>
-  fetchData("https://swapi.co/api/films/").then(responseWithPagination);
-
-// requests Starships
-const getStarship = args =>
-  fetchData(`https://swapi.co/api/starships/${args.id}`);
-const getStarships = () =>
-  fetchData("https://swapi.co/api/starships/").then(responseWithPagination);
-
-// request vehicles
-const getVehicle = args => fetchData(`https://swapi.co/api/vehicle/${args.id}`);
-const getVehicles = () =>
-  fetchData("https://swapi.co/api/vehicle/").then(responseWithPagination);
-
-// request vehicles
-const getSpecy = args => fetchData(`https://swapi.co/api/species/${args.id}`);
-const getSpecies = () =>
-  fetchData("https://swapi.co/api/species/").then(responseWithPagination);
-
 // Root resolver
 const root = {
-  planet: getPlanet,
-  planets: getPlanets,
+  planet: args => fetchData(`https://swapi.co/api/planets/${args.id}`),
+  planets: fetchDataWithPagination("https://swapi.co/api/planets/"),
 
-  person: getPerson,
-  persons: getPersons,
+  person: args => fetch(`https://swapi.co/api/people/${args.id}`),
+  persons: fetchDataWithPagination("https://swapi.co/api/people/"),
 
-  film: getFilm,
-  films: getFilms,
+  film: args => fetchData(`https://swapi.co/api/films/${args.id}`),
+  films: fetchDataWithPagination("https://swapi.co/api/films"),
 
-  starship: getStarship,
-  starships: getStarships,
+  starship: args => fetchData(`https://swapi.co/api/starships/${args.id}`),
+  starships: fetchDataWithPagination("https://swapi.co/api/starships/"),
 
-  vehicle: getVehicle,
-  vehicles: getVehicles,
+  vehicle: args => fetchData(`https://swapi.co/api/vehicles/${args.id}`),
+  vehicles: fetchDataWithPagination("https://swapi.co/api/vehicles/"),
 
-  specy: getSpecy,
-  species: getSpecies
+  specy: args => fetchData(`https://swapi.co/api/species/${args.id}`),
+  species: fetchDataWithPagination("https://swapi.co/api/species/")
 };
 
 // Create an express server and Graphql endpoint

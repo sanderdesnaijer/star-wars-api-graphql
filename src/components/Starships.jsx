@@ -5,7 +5,6 @@ import getStarshipsGql from "../graphql/getStarships.gql";
 
 class Films extends Component {
   render() {
-    console.log(this.props);
     return (
       <Query query={gql(getStarshipsGql)}>
         {({ loading, error, data }) => {
